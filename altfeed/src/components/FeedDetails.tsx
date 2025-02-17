@@ -4,8 +4,8 @@ import { Link, useParams } from "react-router-dom";
 
 interface FeedDetails {
   name: string;
-  description: string;
-  instructions: string[];
+  feed_name: string;
+  preparation: string[];
 }
 
 export default function FeedDetail() {
@@ -26,7 +26,7 @@ export default function FeedDetail() {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/${animal.toLowerCase()}/${feedname.toLowerCase()}`
+          `http://localhost:5000/api/feeds/${animal.toLowerCase()}/${feedname.toLowerCase()}`
         );
         if (!response.ok) {
           throw new Error(`Feed not found!`);
@@ -69,13 +69,12 @@ export default function FeedDetail() {
         </div>
       </nav>
       <div className="px-6 py-6">
-        <h1 className="text-3xl font-bold mb-4">{feed.name}</h1>
-        <p className="mb-6 text-md text-gray-700">{feed.description}</p>
+        <h1 className="text-3xl font-bold mb-4">{feed.feed_name}</h1>
         <h2 className="text-xl font-semibold mb-4">Instructions:</h2>
         <ol className="list-decimal list-inside">
-          {feed.instructions.map((instruction, index) => (
+          {feed.preparation.map((preparation, index) => (
             <li key={index} className="text-md text-gray-700">
-              {instruction}
+              {preparation}
             </li>
           ))}
         </ol>

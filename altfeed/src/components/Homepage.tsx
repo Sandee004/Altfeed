@@ -65,10 +65,10 @@ export default function HomePage() {
       </nav>
       <h1 className="text-3xl font-bold px-10 my-6">Select an Animal</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10">
-        {animals.map((animal) => (
+        {animals.map((animal, index) => (
           <Link
             to={`/feeds/${animal.name.toLowerCase()}`}
-            key={animal.name}
+            key={animal.name + index}
             className="block"
           >
             {" "}
