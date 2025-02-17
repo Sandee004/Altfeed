@@ -1,54 +1,85 @@
-import { useParams } from "react-router-dom";
+import { ArrowLeft, Users } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
-const feedDetails: Record<string, { name: string; description: string; instructions: string[] }> = {
-  "moringa-leaves": {
-    name: "Moringa Leaves",
-    description:
-      "Moringa leaves are highly nutritious and can be used as a protein supplement for livestock.",
-    instructions: [
-      "Harvest fresh moringa leaves",
-      "Dry the leaves in a shaded area for 3-4 days",
-      "Grind the dried leaves into a powder",
-      "Mix 10-20% of moringa leaf powder with regular feed",
-    ],
-  },
-  "cassava-peels": {
-    name: "Cassava Peels",
-    description:
-      "Cassava peels are a good energy source for livestock and should be properly processed before feeding.",
-    instructions: [
-      "Collect fresh cassava peels",
-      "Sun-dry them for 3-5 days",
-      "Chop or grind into smaller pieces",
-      "Mix with other feed components",
-    ],
-  },
-  // Add more feed details here
-};
+interface FeedDetails {
+  name: string;
+  description: string;
+  instructions: string[];
+}
 
 export default function FeedDetail() {
-  const { feedname } = useParams<{ feedname: string }>();
+  const { animal, feedname } = useParams<{
+    animal: string;
+    feedname: string;
+  }>();
+  const [feed, setFeed] = useState<FeedDetails | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!feedname) {
-    return <div className="text-red-500">Feed not specified.</div>;
-  }
+  useEffect(() => {
+    const fetchFeedDetails = async () => {
+      if (!animal || !feedname) return;
 
-  const feed = feedDetails[feedname.toLowerCase()];
+      setLoading(true);
+      setError(null);
 
-  if (!feed) {
-    return <div className="text-red-500">Feed not found.</div>;
-  }
+      try {
+        const response = await fetch(
+          `http://localhost:5000/${animal.toLowerCase()}/${feedname.toLowerCase()}`
+        );
+        if (!response.ok) {
+          throw new Error(`Feed not found!`);
+        }
+        const data = await response.json();
+        setFeed(data);
+      } catch (err) {
+        console.error("Error fetching feed details:", err);
+        setError(
+          err instanceof Error ? err.message : "Error fetching feed details."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeedDetails();
+  }, [animal, feedname]);
+
+  if (loading) return <p>Loading feed details...</p>;
+
+  if (error) return <p>{error}</p>;
+
+  if (!feed) return <p>No feed details available.</p>;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-4">{feed.name}</h1>
-      <p className="mb-4">{feed.description}</p>
-      <h2 className="text-xl font-semibold mb-2">Instructions:</h2>
-      <ol className="list-decimal list-inside">
-        {feed.instructions.map((instruction, index) => (
-          <li key={index}>{instruction}</li>
-        ))}
-      </ol>
-    </div>
+    <>
+      <nav className="bg-purple-900 flex justify-between items-center text-white p-4">
+        <Link to="/" className="flex items-center">
+          <ArrowLeft className="mr-2" />
+          Back
+        </Link>
+        <Link to="/" className="text-2xl font-bold">
+          AltFeed
+        </Link>
+        <div className="flex items-center space-x-4">
+          <Link to="/community">
+            <Users size={24} />
+          </Link>
+        </div>
+      </nav>
+      <div className="px-6 py-6">
+        <h1 className="text-3xl font-bold mb-4">{feed.name}</h1>
+        <p className="mb-6 text-md text-gray-700">{feed.description}</p>
+        <h2 className="text-xl font-semibold mb-4">Instructions:</h2>
+        <ol className="list-decimal list-inside">
+          {feed.instructions.map((instruction, index) => (
+            <li key={index} className="text-md text-gray-700">
+              {instruction}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </>
   );
 }
