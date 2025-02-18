@@ -39,7 +39,12 @@ export default function FeedsPage() {
     fetchFeeds();
   }, [animal]);
 
-  if (loading) return <p>Loading feeds...</p>;
+  if (loading)
+    return (
+      <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+      </div>
+    );
 
   if (error) return <p>{error}</p>;
 
@@ -83,7 +88,7 @@ export default function FeedsPage() {
               >
                 <div className="hover:bg-gray-300 bg-gray-200 py-8 md:py-12 shadow-lg transition-shadow rounded-lg">
                   <div>
-                    <p className="text-center text-3xl">{feed.icon}</p>
+                    <p className="text-center text-3xl">🌿</p>
                   </div>
                   <div>
                     <p className="text-center">{feed.name}</p>

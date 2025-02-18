@@ -47,7 +47,12 @@ export default function FeedDetail() {
     fetchFeedDetails();
   }, [animal, feedname]);
 
-  if (loading) return <p>Loading feed details...</p>;
+  if (loading)
+    return (
+      <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+      </div>
+    );
 
   if (error) return <p>{error}</p>;
 
@@ -72,7 +77,7 @@ export default function FeedDetail() {
           </Link>
         </div>
       </nav>
-      <div className="px-6 py-6">
+      <div className="px-6 pb-6 pt-20 md:pt-25">
         <h1 className="text-3xl font-bold mb-4">{feed.feed_name}</h1>
         <h2 className="text-xl font-semibold mb-4">Instructions:</h2>
         <ol className="list-decimal list-inside">
