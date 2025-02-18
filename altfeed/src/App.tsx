@@ -4,6 +4,7 @@ import IntroPage from "./components/Intro";
 import FeedsPage from "./components/FeedsPage";
 import FeedDetails from "./components/FeedDetails";
 import ProfilePage from "./components/Profile";
+import Community from "./components/Community";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/feeds/:animal" element={<FeedsPage />} />
         <Route path="/feed/:animal/:feedname" element={<FeedDetails />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
     </Router>
   );

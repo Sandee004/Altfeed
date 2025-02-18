@@ -40,7 +40,12 @@ export default function HomePage() {
     getAnimals();
   }, []);
 
-  if (loading) return <p>Loading animals...</p>;
+  if (loading)
+    return (
+      <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+      </div>
+    );
 
   if (error) return <p>{error}</p>;
 
@@ -65,7 +70,7 @@ export default function HomePage() {
       </nav>
       <div className="pt-16 md:pt-20">
         <h1 className="text-3xl font-bold px-10 my-6">Select an Animal</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10 mb-10">
           {animals.map((animal, index) => (
             <Link
               to={`/feeds/${animal.name.toLowerCase()}`}

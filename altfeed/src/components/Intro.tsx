@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import { LucideApple, RecycleIcon, Users } from "lucide-react";
 
 export default function IntroPage() {
   return (
@@ -7,9 +8,9 @@ export default function IntroPage() {
       <Navbar />
       <div
         className="relative bg-cover bg-center h-screen flex items-center justify-center text-white"
-        style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
+        style={{ backgroundImage: "url('/farm.jpg')" }}
       >
-        <div className="bg-black bg-opacity-50 p-8 text-center rounded-lg">
+        <div className="bg-black/40 p-8 text-center rounded-lg">
           <h1 className="text-5xl font-bold mb-4">Welcome to AltFeed</h1>
           <p className="text-xl mb-6 max-w-2xl">
             Providing innovative and sustainable alternative feed options for
@@ -30,11 +31,7 @@ export default function IntroPage() {
         </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
-            <img
-              src="/images/sustainable.svg"
-              alt="Sustainable"
-              className="mx-auto mb-4 w-20"
-            />
+            <RecycleIcon className="mx-auto mb-4 w-20" />
             <h3 className="text-2xl font-semibold mb-2">
               Sustainable Solutions
             </h3>
@@ -45,11 +42,7 @@ export default function IntroPage() {
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
-            <img
-              src="/images/nutrition.svg"
-              alt="Nutrition"
-              className="mx-auto mb-4 w-20"
-            />
+            <LucideApple className="mx-auto mb-4 w-20" />
             <h3 className="text-2xl font-semibold mb-2">Optimized Nutrition</h3>
             <p>
               Discover feeds rich in proteins, vitamins, and minerals to improve
@@ -58,11 +51,7 @@ export default function IntroPage() {
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
-            <img
-              src="/images/community.svg"
-              alt="Community"
-              className="mx-auto mb-4 w-20"
-            />
+            <Users className="mx-auto mb-4 w-20" />
             <h3 className="text-2xl font-semibold mb-2">Farmer-Friendly</h3>
             <p>
               Easy-to-follow guides and step-by-step instructions tailored for
