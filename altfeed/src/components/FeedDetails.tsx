@@ -27,7 +27,7 @@ export default function FeedDetail() {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/feeds/${animal.toLowerCase()}/${feedname.toLowerCase()}`
+          `https://altfeed-backend.onrender.com/api/feeds/${animal.toLowerCase()}/${feedname.toLowerCase()}`
         );
         if (!response.ok) {
           throw new Error(`Feed not found!`);

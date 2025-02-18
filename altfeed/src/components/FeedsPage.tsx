@@ -23,7 +23,7 @@ export default function FeedsPage() {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/feeds/${animal.toLowerCase()}`
+          `https://altfeed-backend.onrender.com/feeds/${animal.toLowerCase()}`
         );
         if (!response.ok) {
           throw new Error(`Error fetching feeds.`);

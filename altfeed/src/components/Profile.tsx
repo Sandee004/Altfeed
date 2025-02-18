@@ -29,7 +29,9 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/profile");
+        const response = await fetch(
+          "https://altfeed-backend.onrender.com/profile"
+        );
         if (response.ok) {
           const data = await response.json();
           setUserData(data);
@@ -85,8 +87,8 @@ export default function ProfilePage() {
     e.preventDefault();
     try {
       const url: string = userData
-        ? "http://localhost:5000/update_user"
-        : "http://localhost:5000/create_user";
+        ? "https://altfeed-backend.onrender.com/update_user"
+        : "https://altfeed-backend.onrender.com/create_user";
       const method: string = userData ? "PUT" : "POST";
       const response: Response = await fetch(url, {
         method: method,
@@ -101,7 +103,7 @@ export default function ProfilePage() {
         setShowModal(false);
         // Refresh profile data
         const updatedData: Response = await fetch(
-          "http://localhost:5000/profile"
+          "https://altfeed-backend.onrender.com/profile"
         );
         const newData: UserData = await updatedData.json();
         setUserData(newData);
@@ -115,7 +117,11 @@ export default function ProfilePage() {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+      </div>
+    );
   }
 
   return (

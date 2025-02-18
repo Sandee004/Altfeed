@@ -18,7 +18,9 @@ export default function HomePage() {
       setError(null);
 
       try {
-        const response = await fetch("http://localhost:5000/api/animals");
+        const response = await fetch(
+          "https://altfeed-backend.onrender.com/api/animals"
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`); // More informative error
         }
