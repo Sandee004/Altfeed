@@ -1,4 +1,4 @@
-import { ArrowLeft, Users } from "lucide-react";
+import { ArrowLeft, Play, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -61,6 +61,10 @@ export default function FeedDetail() {
   const handleBackClick = () => {
     navigate(`/feeds/${animal}`);
   };
+
+  const watchVideo = () => {
+    alert("Coming soon.....");
+  };
   return (
     <>
       <nav className="bg-purple-900 flex justify-between items-center text-white p-4 fixed top-0 left-0 right-0 z-50">
@@ -87,6 +91,13 @@ export default function FeedDetail() {
             </li>
           ))}
         </ol>
+
+        <button
+          onClick={watchVideo}
+          className="bg-purple-900 text-white flex gap-2 hover:cursor-pointer hover:bg-purple-800 justify-center items-center px-4 py-2 mt-4 rounded-md"
+        >
+          See video <Play size={17} />
+        </button>
       </div>
     </>
   );

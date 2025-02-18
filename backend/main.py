@@ -1,6 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-from utils import db, create_tables, Animal, Feed
+from utils import db, create_tables, Animal, Feed, Users
 from animals_seed import seed_animals
 from feed_cattle_seed import feed_cattle_seed
 from feed_poultry_seed import feed_poultry_seed
@@ -10,10 +10,61 @@ import json
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)  # Initialize the db with the app
+db.init_app(app)
 CORS(app)
 
 
+@app.route('/create_user', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    user = Users(
+        name=data['name'],
+        email=data['email'],
+        farm_type=data['farm_type'],
+        location=data['location'],
+        size=data['size'],
+        phone=data['phone'],
+        profile_image_url=data['profile_image_url']
+    )
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({"message": "User created successfully"})
+
+@app.route('/update_user', methods=['PUT'])
+def update_user():
+    data = request.get_json()
+    user = Users.query.first()
+    if user:
+        user.name = data['name']
+        user.email = data['email']
+        user.farm_type = data['farm_type']
+        user.location = data['location']
+        user.size = data['size']
+        user.phone = data['phone']
+        user.profile_image_url = data['profile_image_url']
+        db.session.commit()
+        return jsonify({"message": "User updated successfully"})
+    return jsonify({"message": "User not found"}), 404
+
+
+
+@app.route('/profile', methods=['GET'])
+def get_profile():
+    # Assuming you want to get the first user for simplicity
+    user = Users.query.first()
+    if not user:
+        return jsonify({}), 404
+    
+    user_data = {
+        "name": user.name,
+        "email": user.email,
+        "farm_type": user.farm_type,
+        "location": user.location,
+        "size": user.size,
+        "phone": user.phone,
+        "profile_image_url": user.profile_image_url
+    }
+    return jsonify(user_data)
 
 @app.route('/api/animals', methods=['GET'])
 def get_animals():
@@ -61,15 +112,35 @@ def get_feed_details(animal, feed_name):
     else:
         return jsonify({"message": "Feed not found"}), 404
 
+"""
+@app.route('/feeds/<string:animal>', methods=['GET'])
+def get_feeds(animal):
+    search_query = request.args.get('q', '').lower()
+    feeds = Feed.query.join(Animal).filter(Animal.name.ilike(animal))
+    
+    if search_query:
+        feeds = feeds.filter(Feed.feed_name.ilike(f"%{search_query}%"))
+    
+    feed_list = [{
+        "name": feed.feed_name,
+        "preparation": feed.preparation
+    } for feed in feeds]
+    
+    return jsonify(feed_list)
+"""
 
 def seed_database():
     with app.app_context():
-        db.drop_all()
+        #db.drop_all()
         create_tables()
-        seed_animals()
-        feed_cattle_seed()
-        feed_poultry_seed()
-        feed_goat_seed()
+        
+        if Animal.query.count() == 0:
+            seed_animals()
+        if Feed.query.count() == 0:
+            feed_cattle_seed()
+            feed_poultry_seed()
+            feed_goat_seed()
+
 
 if __name__ == '__main__':
     seed_database()

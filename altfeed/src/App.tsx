@@ -3,6 +3,7 @@ import HomePage from "./components/Homepage";
 import IntroPage from "./components/Intro";
 import FeedsPage from "./components/FeedsPage";
 import FeedDetails from "./components/FeedDetails";
+import ProfilePage from "./components/Profile";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/feeds/:animal" element={<FeedsPage />} />
         <Route path="/feed/:animal/:feedname" element={<FeedDetails />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );
