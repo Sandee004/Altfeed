@@ -44,9 +44,9 @@ export default function FeedsPage() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <nav className="bg-purple-900 flex justify-between items-center text-white p-4">
-        <Link to="/" className="flex items-center">
+    <>
+      <nav className="bg-purple-900 flex justify-between items-center text-white p-4 fixed top-0 left-0 right-0 z-50">
+        <Link to="/homepage" className="flex items-center">
           <ArrowLeft className="mr-2" />
           Back
         </Link>
@@ -62,44 +62,47 @@ export default function FeedsPage() {
           </Link>
         </div>
       </nav>
-      <h1 className="text-3xl font-bold px-10 my-6 capitalize">
-        {animal} Feeds
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10">
-        {feeds.length > 0 ? (
-          feeds.map((feed) => (
-            <Link
-              to={
-                animal
-                  ? `/feed/${animal.toLowerCase()}/${feed.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}`
-                  : "#"
-              }
-              key={feed.name}
-              className="block"
-            >
-              <div className="hover:bg-gray-300 bg-gray-200 py-8 md:py-12 shadow-lg transition-shadow rounded-lg">
-                <div>
-                  <p className="text-center text-3xl">{feed.icon}</p>
+
+      <div className="pt-16 md:pt-20">
+        <h1 className="text-3xl font-bold px-10 my-6 capitalize">
+          {animal} Feeds
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10">
+          {feeds.length > 0 ? (
+            feeds.map((feed) => (
+              <Link
+                to={
+                  animal
+                    ? `/feed/${animal.toLowerCase()}/${feed.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`
+                    : "#"
+                }
+                key={feed.name}
+                className="block"
+              >
+                <div className="hover:bg-gray-300 bg-gray-200 py-8 md:py-12 shadow-lg transition-shadow rounded-lg">
+                  <div>
+                    <p className="text-center text-3xl">{feed.icon}</p>
+                  </div>
+                  <div>
+                    <p className="text-center">{feed.name}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-center">{feed.name}</p>
-                </div>
-              </div>
-            </Link>
-          ))
-        ) : (
-          <p>No feeds available for {animal}.</p>
-        )}
+              </Link>
+            ))
+          ) : (
+            <p>No feeds available for {animal}.</p>
+          )}
+        </div>
+        <div className="mt-8 text-center">
+          <Link to="/submit-feed">
+            <button className="bg-purple-900 hover:bg-purple-800 px-5 hover:shadow-lg py-3 rounded-md text-white">
+              Submit a New Feed
+            </button>
+          </Link>
+        </div>
       </div>
-      <div className="mt-8 text-center">
-        <Link to="/submit-feed">
-          <button className="bg-purple-900 hover:bg-purple-800 px-5 hover:shadow-lg py-3 rounded-md text-white">
-            Submit a New Feed
-          </button>
-        </Link>
-      </div>
-    </div>
+    </>
   );
 }

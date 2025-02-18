@@ -46,7 +46,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <nav className="bg-purple-900 flex justify-between items-center text-white p-4">
+      <nav className="bg-purple-900 flex justify-between items-center text-white p-4 fixed top-0 left-0 right-0 z-50">
         <Link to="/" className="flex items-center">
           <ArrowLeft className="mr-2" />
           Back
@@ -63,35 +63,37 @@ export default function HomePage() {
           </Link>
         </div>
       </nav>
-      <h1 className="text-3xl font-bold px-10 my-6">Select an Animal</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10">
-        {animals.map((animal, index) => (
-          <Link
-            to={`/feeds/${animal.name.toLowerCase()}`}
-            key={animal.name + index}
-            className="block"
-          >
-            {" "}
-            {/* Added block display */}
-            <div className="hover:bg-gray-300 bg-gray-200 py-8 md:py-12 shadow-lg transition-shadow rounded-lg">
+      <div className="pt-16 md:pt-20">
+        <h1 className="text-3xl font-bold px-10 my-6">Select an Animal</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10">
+          {animals.map((animal, index) => (
+            <Link
+              to={`/feeds/${animal.name.toLowerCase()}`}
+              key={animal.name + index}
+              className="block"
+            >
               {" "}
-              {/* Added rounded corners */}
-              <div>
-                <p className="text-center text-3xl">{animal.icon}</p>
+              {/* Added block display */}
+              <div className="hover:bg-gray-300 bg-gray-200 py-8 md:py-12 shadow-lg transition-shadow rounded-lg">
+                {" "}
+                {/* Added rounded corners */}
+                <div>
+                  <p className="text-center text-3xl">{animal.icon}</p>
+                </div>
+                <div>
+                  <p className="text-center">{animal.name}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-center">{animal.name}</p>
-              </div>
-            </div>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link to="/submit-feed">
+            <button className="bg-purple-900 hover:bg-purple-800 px-5 hover:shadow-lg py-3 rounded-md text-white">
+              Submit a New Feed
+            </button>
           </Link>
-        ))}
-      </div>
-      <div className="mt-8 text-center">
-        <Link to="/submit-feed">
-          <button className="bg-purple-900 hover:bg-purple-800 px-5 hover:shadow-lg py-3 rounded-md text-white">
-            Submit a New Feed
-          </button>
-        </Link>
+        </div>
       </div>
     </div>
   );

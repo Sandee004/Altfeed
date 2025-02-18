@@ -1,6 +1,6 @@
 import { ArrowLeft, Users } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 interface FeedDetails {
   name: string;
@@ -16,6 +16,7 @@ export default function FeedDetail() {
   const [feed, setFeed] = useState<FeedDetails | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFeedDetails = async () => {
@@ -52,13 +53,16 @@ export default function FeedDetail() {
 
   if (!feed) return <p>No feed details available.</p>;
 
+  const handleBackClick = () => {
+    navigate(`/feeds/${animal}`);
+  };
   return (
     <>
-      <nav className="bg-purple-900 flex justify-between items-center text-white p-4">
-        <Link to="/" className="flex items-center">
+      <nav className="bg-purple-900 flex justify-between items-center text-white p-4 fixed top-0 left-0 right-0 z-50">
+        <div onClick={handleBackClick} className="flex items-center">
           <ArrowLeft className="mr-2" />
           Back
-        </Link>
+        </div>
         <Link to="/" className="text-2xl font-bold">
           AltFeed
         </Link>
