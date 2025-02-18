@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ArrowLeft, User, Users } from "lucide-react";
+import { ArrowLeft, User, Users, Search } from "lucide-react";
 
 export default function FeedsPage() {
   interface Feed {
@@ -11,6 +11,7 @@ export default function FeedsPage() {
   const [feeds, setFeeds] = useState<Feed[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>(""); // New state for search
   const { animal } = useParams<{ animal: string }>();
 
   useEffect(() => {
@@ -38,6 +39,11 @@ export default function FeedsPage() {
 
     fetchFeeds();
   }, [animal]);
+
+  // Filter feeds based on search query
+  const filteredFeeds = feeds.filter((feed) =>
+    feed.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (loading)
     return (
@@ -68,13 +74,27 @@ export default function FeedsPage() {
         </div>
       </nav>
 
-      <div className="pt-16 md:pt-20">
+      {/* Search Bar */}
+      <div className="pt-16 md:pt-20 px-10 mt-5">
+        <div className="relative w-full">
+          <input
+            type="text"
+            placeholder="Search feeds..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600"
+          />
+          <Search className="absolute right-3 top-3 text-gray-400" />
+        </div>
+      </div>
+
+      <div className="pt-2 md:pt-8">
         <h1 className="text-3xl font-bold px-10 my-6 capitalize">
           {animal} Feeds
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10">
-          {feeds.length > 0 ? (
-            feeds.map((feed) => (
+          {filteredFeeds.length > 0 ? (
+            filteredFeeds.map((feed) => (
               <Link
                 to={
                   animal
@@ -97,10 +117,10 @@ export default function FeedsPage() {
               </Link>
             ))
           ) : (
-            <p>No feeds available for {animal}.</p>
+            <p>No feeds available for "{searchQuery}".</p>
           )}
         </div>
-        <div className="mt-8 text-center">
+        <div className="my-8 text-center">
           <Link to="/submit-feed">
             <button className="bg-purple-900 hover:bg-purple-800 px-5 hover:shadow-lg py-3 rounded-md text-white">
               Submit a New Feed

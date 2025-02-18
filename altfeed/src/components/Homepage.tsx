@@ -87,13 +87,6 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
-        <div className="mt-8 text-center">
-          <Link to="/submit-feed">
-            <button className="bg-purple-900 hover:bg-purple-800 px-5 hover:shadow-lg py-3 rounded-md text-white">
-              Submit a New Feed
-            </button>
-          </Link>
-        </div>
       </div>
     </div>
   );

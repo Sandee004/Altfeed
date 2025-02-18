@@ -112,22 +112,6 @@ def get_feed_details(animal, feed_name):
     else:
         return jsonify({"message": "Feed not found"}), 404
 
-"""
-@app.route('/feeds/<string:animal>', methods=['GET'])
-def get_feeds(animal):
-    search_query = request.args.get('q', '').lower()
-    feeds = Feed.query.join(Animal).filter(Animal.name.ilike(animal))
-    
-    if search_query:
-        feeds = feeds.filter(Feed.feed_name.ilike(f"%{search_query}%"))
-    
-    feed_list = [{
-        "name": feed.feed_name,
-        "preparation": feed.preparation
-    } for feed in feeds]
-    
-    return jsonify(feed_list)
-"""
 
 def seed_database():
     with app.app_context():
